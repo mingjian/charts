@@ -1,14 +1,14 @@
 package com.mj.jqplot.sampling.client.chart;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 
-class JQplotChartOptionStringArray extends JQplotAbstractChartOption< Collection< String > > {
+class JQplotChartOptionStringArray extends JQplotAbstractChartOption< ArrayList< String > > {
 
-	JQplotChartOptionStringArray( String key, Collection< String > values ) {
+	JQplotChartOptionStringArray( String key, ArrayList< String > values ) {
 		super( key, values );
 	}
 

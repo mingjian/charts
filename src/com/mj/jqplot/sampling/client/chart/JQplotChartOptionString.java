@@ -1,6 +1,6 @@
 package com.mj.jqplot.sampling.client.chart;
 
-class JQplotChartOptionString extends JQplotAbstractChartOption< String > {
+public class JQplotChartOptionString extends JQplotAbstractChartOption< String > {
 
 	protected boolean isRef ;
 	

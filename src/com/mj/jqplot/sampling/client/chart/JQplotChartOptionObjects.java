@@ -2,20 +2,24 @@
 package com.mj.jqplot.sampling.client.chart;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Iterator;
 
 
-public class JQplotChartOptionObjects extends JQplotAbstractChartOption<Collection<JQplotChartOptionObject>> {
+public class JQplotChartOptionObjects extends JQplotAbstractChartOption<ArrayList<JQplotChartOptionObject>> {
 
     public JQplotChartOptionObjects (String key) {
         super (key, new ArrayList<JQplotChartOptionObject> ());
+    }
+    
+    public JQplotChartOptionObjects (String key, ArrayList<JQplotChartOptionObject> objects) {
+        super (key, objects);
     }
     
     void add( JQplotChartOptionObject obj ){
         value.add (obj);
     }
     
-    Collection<JQplotChartOptionObject> toValues(){
+    ArrayList<JQplotChartOptionObject> toValues(){
         return value;
     }
     
@@ -24,16 +28,22 @@ public class JQplotChartOptionObjects extends JQplotAbstractChartOption<Collecti
         
         StringBuilder sb = new StringBuilder ();
         
-        sb.append (key).append (": [{");
+        sb.append (key).append (": [");
         
-        for ( JQplotChartOptionObject obj: value ) {
+        Iterator<JQplotChartOptionObject> objectIterator = value.iterator ();
+        
+        JQplotChartOptionObject object;
+        
+        while (objectIterator.hasNext () ) {
             
-            sb.append ( obj.asJson () );
-            
-            sb.append (",");
+            object = objectIterator.next ();
+            sb.append ("{" + object.asJson () + "}");
+            if (objectIterator.hasNext ()) {
+                sb.append (",");
+            }
         }
         
-        sb.append ("}]");
+        sb.append ("]");
         
         return sb.toString ();
     }

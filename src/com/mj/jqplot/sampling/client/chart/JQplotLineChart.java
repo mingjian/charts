@@ -126,9 +126,8 @@ public class JQplotLineChart extends JQplotChart< JQplotLineChartOptions > {
 		}
 		this.maxThreshold = maxThreshold;
 		this.minThreshold = minThreshold;
-		options.set("canvasOverlay.show", true);		
 		
-		
+		options.set("canvasOverlay.show", true);
 		options.setJson("canvasOverlay.objects", 
 				"[{ horizontalLine:{ y: "+maxThreshold+", lineWidth: 2, xOffset:0, color: \"#ff0000\", shadow:false, " +
 				"showTooltip: "+showTooltip+", tooltipFormatString: \""+maxThresholdTitle+"=%.*s\", showTooltipPrecision: 0.5, tooltipLocation: \"n\"} }," +
@@ -140,67 +139,7 @@ public class JQplotLineChart extends JQplotChart< JQplotLineChartOptions > {
 		options.set( "axes.yaxis.min", minThreshold - margin ) ;
 	}
 	
-	public void addHorizontalThresholds(Number thresholdValue, String tooltipFormatStringValue, 
-	        Number lineWidthValue, Boolean isShadow, String colorValue, Boolean showTooltipValue, 
-	        Number showTooltipPrecisionValue, String tooltipLocationValue ){
-	    
-	    if (thresholdValue == null) {
-	        thresholdValue = 100;
-        }
-	    
-	    if (lineWidthValue == null) {
-	        lineWidthValue = 2;
-        }
-	    
-	    if (isShadow == null) {
-            isShadow=false;
-        }
-	    
-	    if (Utils.isEmpty (colorValue)) {
-            colorValue = "#ff0000";                    
-        }
-	    
-	    if (showTooltipValue == null) {
-            showTooltipValue = true;
-        }
-	    
-	    if (showTooltipPrecisionValue == null) {
-	        showTooltipPrecisionValue=0.5;
-        }
-	    
-	    if (Utils.isEmpty (tooltipLocationValue)) {
-            tooltipLocationValue = "n";
-        }
-	    
-	    if (Utils.isEmpty (tooltipFormatStringValue)) {
-	        tooltipFormatStringValue = "%.*s";
-        }
-	    
-	    options.set("canvasOverlay.show", true);	    
-        JQplotChartOptionObjects canvasOverlayObjects = new JQplotChartOptionObjects ("canvasOverlay.objects");
-        
-        JQplotChartOptionObject horizontalLine = new JQplotChartOptionObject ("horizontalLine");        
-        JQplotChartOptionNumber threshold = new JQplotChartOptionNumber ("y", thresholdValue);
-        JQplotChartOptionNumber width = new JQplotChartOptionNumber ("lineWidth", lineWidthValue);
-        JQplotChartOptionBoolean shadow = new JQplotChartOptionBoolean ("shadow", isShadow);
-        JQplotChartOptionString color = new JQplotChartOptionString ("color", colorValue);
-        JQplotChartOptionBoolean showToolTip = new JQplotChartOptionBoolean ("showTooltip", showTooltipValue);
-        JQplotChartOptionNumber showTooltipPrecision = new JQplotChartOptionNumber ("showTooltipPrecision", showTooltipPrecisionValue);
-        JQplotChartOptionString tooltipFormatString = new JQplotChartOptionString ("tooltipFormatString", tooltipFormatStringValue);
-        JQplotChartOptionString tooltipLocation = new JQplotChartOptionString ("tooltipLocation", tooltipLocationValue);
-        
-        horizontalLine.add (threshold);
-        horizontalLine.add (width);
-        horizontalLine.add (shadow);
-        horizontalLine.add (color);
-        horizontalLine.add (showToolTip);
-        horizontalLine.add (showTooltipPrecision);
-        horizontalLine.add (tooltipFormatString);
-        horizontalLine.add (tooltipLocation);
-        
-        canvasOverlayObjects.add (horizontalLine);
-        
-	}
+	
 	
 	public void setTitle( String title ){
 		options.set( "title", "<span style=\"top: 14px; position:absolute; z-index:100;" +
@@ -318,4 +257,7 @@ public class JQplotLineChart extends JQplotChart< JQplotLineChartOptions > {
 			}                
 		}
 	}
+
+
+  
 }

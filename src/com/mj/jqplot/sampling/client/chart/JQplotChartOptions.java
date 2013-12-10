@@ -1,6 +1,6 @@
 package com.mj.jqplot.sampling.client.chart;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -8,7 +8,6 @@ import com.google.gwt.core.client.JsonUtils;
 
 
 public abstract class JQplotChartOptions {
-    
 	
 	protected String json ;
 	
@@ -26,7 +25,6 @@ public abstract class JQplotChartOptions {
 	
 	
 	public JavaScriptObject getJavaScriptObject(){
-		
 		if( json != null ){
 			
 			return JsonUtils.unsafeEval( json ) ;
@@ -34,6 +32,7 @@ public abstract class JQplotChartOptions {
 		} else {
 			
 			StringBuilder sb = new StringBuilder() ;
+			
 			sb.append( "{ " ) ;
 			
 			Iterator< JQplotAbstractChartOption< ? > > entities = optionsMap.list().iterator() ;
@@ -44,21 +43,22 @@ public abstract class JQplotChartOptions {
 			
 				entity = entities.next() ;
 				sb.append( entity.asJson() ) ;
-				if( entities.hasNext() ) sb.append( "," ) ;
-				
+				if( entities.hasNext() ) sb.append( "," ) ;				
 			
 			}
 			
 			sb.append ( "}" ) ;
 			
-			// System.out.println( sb.toString() ) ;
+//			System.out.println (sb.toString ());
+			
 			return JsonUtils.unsafeEval( sb.toString() ) ;
 		}
 		
 	}
 	
 	public JQplotAbstractChartOption< ? > getOption( String path ){
-		if ( !path.contains( "." ) ){
+		
+	    if ( !path.contains( "." ) ){
 			 
 			return optionsMap.get( path );
 		
@@ -91,6 +91,7 @@ public abstract class JQplotChartOptions {
 	
 
 	public void set( String path, String value ){
+	    
 		if ( !path.contains( "." ) ){
 			
 			add ( new JQplotChartOptionString( path , value, false ) ) ;
@@ -159,7 +160,7 @@ public abstract class JQplotChartOptions {
 		}
 	}
 	
-	public void set( String path, Collection< String > values ){
+	public void set( String path, ArrayList< String > values ){
 		if ( !path.contains( "." ) ){
 			
 			add ( new JQplotChartOptionStringArray( path , values ) ) ;
@@ -171,6 +172,20 @@ public abstract class JQplotChartOptions {
 					path.substring( path.lastIndexOf(".") + 1 ) , values ) ) ;
 			
 		}				
+	}
+	
+	public void setObjects( String path, ArrayList<JQplotChartOptionObject> objects){
+	    if ( !path.contains( "." ) ){
+            
+            add ( new JQplotChartOptionObjects( path, objects ) ) ;
+        
+        } else {
+            
+            JQplotChartOptionObject parent = lookupOrCreateParentOf( path , optionsMap  ) ;
+            parent.add( new JQplotChartOptionObjects( 
+                    path.substring( path.lastIndexOf(".") + 1 ) , objects )) ;
+            
+        }       
 	}
 	
 	

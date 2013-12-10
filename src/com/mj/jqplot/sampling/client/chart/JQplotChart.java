@@ -1,5 +1,9 @@
 package com.mj.jqplot.sampling.client.chart;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.shared.GwtEvent;
@@ -10,6 +14,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.mj.jqplot.sampling.client.chart.plugins.JQplotPlugin;
+import com.mj.jqplot.sampling.client.chart.plugins.JQplotPluginCanvasOverlay;
 
 
 public abstract class JQplotChart< OPTION extends JQplotChartOptions > implements
@@ -22,20 +28,25 @@ public abstract class JQplotChart< OPTION extends JQplotChartOptions > implement
 	protected String id;
 
 	protected OPTION options;
-
+	
+	protected Map<String, JQplotPlugin> plugins = new HashMap<String, JQplotPlugin> ();
+	
 	protected JavaScriptObject chart;
+	
+	private Logger logger = Logger.getLogger ("");
 
 	private final static int DRAW_DELAY = 500;
 
 	public JQplotChart(String id, OPTION options) {
+	  
 		this.id = id;
 		container = new SimplePanel();
 		container.ensureDebugId(id);
 		DOM.setElementProperty(asWidget().getElement(), "id", id);
-		this.options = options;
-		
+		this.options = options;		
 		handlerManager = new HandlerManager( this ) ;
 		
+		registerPlugin (new JQplotPluginCanvasOverlay ());
 	}
 
 	public OPTION getOptions() {
@@ -51,7 +62,25 @@ public abstract class JQplotChart< OPTION extends JQplotChartOptions > implement
 
 	public abstract void reset();
 
+	public void registerPlugin( JQplotPlugin plugin ){
+	    
+	    plugins.put ( plugin.getId (), plugin );
+	    
+	}
+	
+	public JQplotPlugin getPlogin(String id){
+	    
+	    if (plugins.get (id) == null) {
+            return null;
+        }
+	    
+	    return plugins.get (id);
+	}
+	
 	protected void draw(final JsArray<?> data) {
+	    
+	    pushPluginOpitons();
+	    
 		(new Timer() {
 			@Override
 			public void run() {
@@ -78,8 +107,14 @@ public abstract class JQplotChart< OPTION extends JQplotChartOptions > implement
 		}).schedule(DRAW_DELAY);
 	}
 
+    private void pushPluginOpitons () {
+        for (JQplotPlugin plugin: plugins.values ()) {
+            options.add (plugin.getOptions ());
+        }
+        
+    }
 
-	protected native JavaScriptObject nativeDraw(String id, JsArray<?> data,
+    protected native JavaScriptObject nativeDraw(String id, JsArray<?> data,
 			JavaScriptObject options) /*-{		    
 	    
 //	    console.log( JSON.stringify( options ) );
@@ -188,6 +223,6 @@ public abstract class JQplotChart< OPTION extends JQplotChartOptions > implement
         fireEvent( e );
     } 
 	
-   
+  
    
 }

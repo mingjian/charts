@@ -1,8 +1,8 @@
 package com.mj.jqplot.sampling.client.chart;
 
-class JQplotChartOptionBoolean extends JQplotAbstractChartOption< Boolean > {
+public class JQplotChartOptionBoolean extends JQplotAbstractChartOption< Boolean > {
 
-	JQplotChartOptionBoolean( String key, boolean value ) {
+    public JQplotChartOptionBoolean( String key, boolean value ) {
 		super(key, value);
 	}
 

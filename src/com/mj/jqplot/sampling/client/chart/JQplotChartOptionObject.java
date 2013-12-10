@@ -2,13 +2,13 @@ package com.mj.jqplot.sampling.client.chart;
 
 import java.util.Iterator;
 
-class JQplotChartOptionObject extends JQplotAbstractChartOption< JQPlotOptionsMap > {
+public class JQplotChartOptionObject extends JQplotAbstractChartOption< JQPlotOptionsMap > {
 
-	JQplotChartOptionObject( String key ) {
+	public JQplotChartOptionObject( String key ) {
 		super( key, new JQPlotOptionsMap () );
 	}
 
-	void add( JQplotAbstractChartOption< ? > entity ) {
+	public void add( JQplotAbstractChartOption< ? > entity ) {
 		value.add( entity ) ;
 	}
 	

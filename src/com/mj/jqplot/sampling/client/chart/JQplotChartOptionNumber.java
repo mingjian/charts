@@ -1,8 +1,8 @@
 package com.mj.jqplot.sampling.client.chart;
 
-class JQplotChartOptionNumber extends JQplotAbstractChartOption< Number > {
+public class JQplotChartOptionNumber extends JQplotAbstractChartOption< Number > {
 
-	JQplotChartOptionNumber( String key, Number value ) {
+	public JQplotChartOptionNumber( String key, Number value ) {
 		super(key, value);
 	}
 

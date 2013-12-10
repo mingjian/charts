@@ -13,6 +13,7 @@ import com.mj.jqplot.sampling.client.chart.JQplotChartPredrawEvent;
 import com.mj.jqplot.sampling.client.chart.JQplotChartPredrawHandler;
 import com.mj.jqplot.sampling.client.chart.JQplotLineChart;
 import com.mj.jqplot.sampling.client.chart.JQplotLineChartOptions;
+import com.mj.jqplot.sampling.client.chart.plugins.HasJQplotPluginCanvasOverlay;
 import com.mj.jqplot.sampling.shared.JQplotData;
 
 public class Sampling implements EntryPoint {
@@ -26,8 +27,7 @@ public class Sampling implements EntryPoint {
     }
     
     public void init(){
-                
-                
+                        
         List<JQplotData> list = new ArrayList<JQplotData> ();        
         list.add (new JQplotData ("20131028000000", 38));
         list.add (new JQplotData ("20131027000000", 28));
@@ -36,14 +36,12 @@ public class Sampling implements EntryPoint {
         list.add (new JQplotData ("20131024000000", 33));
         list.add (new JQplotData ("20131023000000", 41));
         
-
         JQplotLineChart lineChart = new JQplotLineChart ("Sampling");
         FlowPanel mainDiv = new FlowPanel ();
         Label label = new Label ("Chart:");
         mainDiv.add (label);
         mainDiv.add (lineChart);
-        RootPanel.get ().add ( mainDiv );
-        
+        RootPanel.get ().add ( mainDiv );        
         
         lineChart.asWidget().setWidth( "340px" ) ;
         lineChart.asWidget().setHeight( "280px" ) ;        
@@ -95,7 +93,13 @@ public class Sampling implements EntryPoint {
             dates[i++] = data.getDate ();
             logger.log (Level.INFO,"Date:  " + dates[i-1]);
         }
-        lineChart.setHorizontalThresholds (35, 18, "Max", "Min", true);
+        
+        HasJQplotPluginCanvasOverlay canvasOverlayPlugin = 
+                ( ( HasJQplotPluginCanvasOverlay )lineChart.getPlogin ( HasJQplotPluginCanvasOverlay.CANVASOVERLAY_ID ) );
+        
+        canvasOverlayPlugin.addHorizontalThresholds ( 20, "#ff00ff");
+        canvasOverlayPlugin.addHorizontalThresholds ( 30, "#ffff00");
+        canvasOverlayPlugin.addHorizontalThresholds ( 40, "#ff0000");
         lineChart.reset() ;
         lineChart.addPlots( dates, values ) ;
         lineChart.pack( values );
